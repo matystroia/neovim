@@ -1143,7 +1143,8 @@ end
 nvim_on('DiagnosticChanged', api.nvim_create_augroup('nvim.diagnostic.status', {}), {
   desc = 'diagnostics component for the statusline',
 }, function(ev)
-  if api.nvim_buf_is_loaded(ev.buf) then
+  local win = vim.fn.bufwinid(ev.buf)
+  if api.nvim_buf_is_loaded(ev.buf) and vim.fn.win_gettype(win) ~= 'autocmd' then
     api.nvim__redraw({ buf = ev.buf, statusline = true })
   end
 end)
